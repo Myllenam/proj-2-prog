@@ -24,7 +24,7 @@ public class AnimalController {
         return animalService.getAllAnimais();
     }
 
-    // Endpoint para pegar todos os gatos
+
     @GetMapping("/gatos")
     public List<Animal> getGatos() {
         return animalService.getAllGatos();
