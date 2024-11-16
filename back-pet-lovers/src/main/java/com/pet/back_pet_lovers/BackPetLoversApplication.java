@@ -8,7 +8,6 @@ public class BackPetLoversApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackPetLoversApplication.class, args);
-		System.out.println("Teste");
-	}
+	}	
 
 }
