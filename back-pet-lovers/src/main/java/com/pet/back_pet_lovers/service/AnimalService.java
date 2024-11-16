@@ -12,7 +12,7 @@ public class AnimalService {
     @Autowired
     private AnimalRepository animalRepository;
 
-    // Método para pegar todos os animais
+ 
     public List<Animal> getAllAnimais() {
         return animalRepository.findAll();
     }

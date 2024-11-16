@@ -1,9 +1,17 @@
 package com.pet.back_pet_lovers.model;
 
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Animal {
@@ -24,11 +32,27 @@ public class Animal {
     private String genero;
     private String porte;
 
+   @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "Animal_Tags",
+        joinColumns = @JoinColumn(name = "ID_ANIMAL"),
+        inverseJoinColumns = @JoinColumn(name = "ID_TAG")
+    )
+    @JsonManagedReference  // Evita a serialização recursiva do lado dos animais
+    private Set<Tag> tags;
 
+    
     public Integer getIdAnimal() {
         return idAnimal;
     }
 
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
     public void setIdAnimal(Integer idAnimal) {
         this.idAnimal = idAnimal;
     }
