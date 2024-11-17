@@ -2,6 +2,7 @@ package com.pet.back_pet_lovers.model;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
@@ -38,7 +39,8 @@ public class Animal {
         joinColumns = @JoinColumn(name = "ID_ANIMAL"),
         inverseJoinColumns = @JoinColumn(name = "ID_TAG")
     )
-    @JsonManagedReference  // Evita a serialização recursiva do lado dos animais
+   
+    @JsonIgnore
     private Set<Tag> tags;
 
     

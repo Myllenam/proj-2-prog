@@ -4,6 +4,8 @@ import com.pet.back_pet_lovers.service.AnimalService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +25,12 @@ public class AnimalController {
     public List<Animal> getAnimais() {
         return animalService.getAllAnimais();
     }
-
+  
+      // Endpoint para criar um novo animal
+    @PostMapping
+    public Animal createAnimal(@RequestBody Animal animal) {
+        return animalService.saveAnimal(animal);  // Chama o serviço para salvar o animal
+    }
 
     @GetMapping("/gatos")
     public List<Animal> getGatos() {
@@ -45,4 +52,6 @@ public class AnimalController {
     ) {
         return animalService.getAnimalsFiltered(especie, raca, estado);
     }
+
+    
 }
