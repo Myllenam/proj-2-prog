@@ -2,42 +2,32 @@ import { useState, useEffect } from 'react';
 import { AnimalFilter, IAnimal } from '../models/interface/animal.interface'; // Tipos de Animal e Filtro
 import { api } from '../services/requests';
 
-const getAnimals = (filters: AnimalFilter = {}) => {
+const getAnimals = (filters?: AnimalFilter) => { // Filtro agora é opcional
   const [animals, setAnimals] = useState<IAnimal[]>([]); // Inicializa como um array vazio
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAnimals = async () => {
-      setLoading(true); // Inicia o loading
-      setError(null); // Limpa qualquer erro anterior
-
-      let url = '/animais';  // Definindo a URL base da API
-
-      // Adicionando filtros como parâmetros de consulta na URL
-      const queryParams = new URLSearchParams(filters as Record<string, string>).toString();
-      if (queryParams) {
-        url = `${url}?${queryParams}`;
-      }
+      setLoading(true); 
+      setError(null); 
 
       try {
-        // Realizando a requisição com Axios
-        const response = await api.get(url);
-        setAnimals(response.data); // Atualiza o estado com os dados recebidos
+        const response = await api.get("/animais", {
+          params: filters ? filters : {} 
+        });
+        setAnimals(response.data); 
       } catch (err: any) {
-        setError(err.message); // Armazena o erro caso a requisição falhe
+        setError(err.message); 
       } finally {
-        setLoading(false); // Finaliza o loading
+        setLoading(false);
       }
     };
 
-    // Faz a requisição somente se o filtro tiver algum valor
-    if (Object.keys(filters).length > 0) {
-      fetchAnimals();
-    }
-  }, [filters]);  // O useEffect é executado quando o filtro mudar
-
+    fetchAnimals();
+  }, [filters]); 
   return { animals, loading, error };
 };
 
 export default getAnimals;
+
