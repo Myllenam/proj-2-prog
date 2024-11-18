@@ -13,7 +13,7 @@ export const MenuList: FC<{ path: string; isMobile?: boolean, onClose?:()=>void 
       {menuItems.map((item, index) => (
         <NavLink key={index} to={item.path} onClick={onClose}>
           <Typography
-            variant={isMobile?"h6":"h4"}
+            variant={isMobile?"h6":"h2"}
             className={`${
               path === item.path ? "!font-extraBold" : "!font-normal"
             } text-rosa2`}

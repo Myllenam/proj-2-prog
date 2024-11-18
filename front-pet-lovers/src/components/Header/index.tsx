@@ -36,10 +36,10 @@ export const Header: FC = () => {
         </div>
         <DesktopMenu path={path} />
       </Toolbar>
-      <div className="flex gap-[60px] sm:gap-[20px]">
+      <div className="flex gap-[35px] sm:gap-[20px]">
       <Button variant="text"><Typography className="!capitalize !leading-7 text-rosa2 !text-[22px] sm:!text-[16px]
       ">Entrar</Typography></Button>
-      <Button ><Typography className="!capitalize !leading-7 text-begeClaro !text-[22px] sm:!text-[16px]">Cadastrar</Typography></Button>
+      <Button ><Typography className="px-4 !capitalize !leading-7 text-begeClaro !text-[22px] sm:!text-[16px]">Cadastrar</Typography></Button>
       </div>
       <MobileMenu isVisible={showMobileMenu}>
         <MenuList path={path} isMobile={true} onClose={toggleMobileMenu} />
