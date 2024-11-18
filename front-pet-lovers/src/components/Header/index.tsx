@@ -1,5 +1,5 @@
 import { useState, type FC } from "react";
-import { IconButton, Toolbar, Typography } from "@mui/material";
+import {  IconButton, Toolbar, Typography } from "@mui/material";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
 import { DesktopMenu } from "./components/DesktopMenu";
@@ -21,7 +21,7 @@ export const Header: FC = () => {
           <div className="md:!hidden lg:!hidden flex items-center gap-[10px]">
             <img
               src={logo}
-              alt="footer"
+              alt="logo"
               className="w-[70px] h-[70px] sm:h-[45px] sm:w-[45px]"
             />
             <IconButton onClick={toggleMobileMenu}>
@@ -30,7 +30,7 @@ export const Header: FC = () => {
           </div>
           <img
             src={logo}
-            alt="footer"
+            alt="logo"
             className="sm:hidden w-[70px] h-[70px] sm:h-[45px] sm:w-[45px]"
           />
         </div>

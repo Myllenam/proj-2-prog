@@ -8,8 +8,8 @@ export default {
   theme: {
     screens: {
       sm: { max: "809px" },
-      md: { min: "810px", max: "1299px" },
-      lg: { min: "1300px" },
+      md: { min: "810px", max: "1499px" },
+      lg: { min: "1500px" },
     },
     extend: {
       fontWeight: {
@@ -47,7 +47,7 @@ export default {
         neutral: {
           700: "#8A8A8A",
           600: "#A3A3A3",
-          500: "#BDBDBD ",
+          500: "#494949",
           400: "#D6D6D6",
           300: "#E3E3E3",
           200: "#F0F0F0",
