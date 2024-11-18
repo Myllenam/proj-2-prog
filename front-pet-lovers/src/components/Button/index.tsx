@@ -10,7 +10,7 @@ export const Button: FC<{
   return (
     <MuiButton
       variant={variant}
-      className={`rounded-[10px] ${
+      className={`rounded-[10px] w-full ${
         variant === "text" ? "bg-transparent" :isWhite?"!bg-white ": "!bg-rosa2"
       }`}
       onClick={onClick}
