@@ -58,5 +58,9 @@ public class AnimalService {
             return animalRepository.findAll();  // Retorna todos os animais se nenhum filtro for passado
         }
     }
+
+        public Animal saveAnimal(Animal animal) {
+        return animalRepository.save(animal);  // Salva o animal no banco de dados
+    }
 }
 
