@@ -3,7 +3,7 @@ import { AnimalFilter, IAnimal } from '../models/interface/animal.interface'; //
 import { api } from '../services/requests';
 
 const getAnimals = (filters?: AnimalFilter) => { // Filtro agora é opcional
-  const [animals, setAnimals] = useState<IAnimal[]>([]); // Inicializa como um array vazio
+  const [animals, setAnimals] = useState<IAnimal[]|null>(null); // Inicializa como um array vazio
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 

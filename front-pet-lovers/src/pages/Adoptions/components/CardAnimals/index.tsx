@@ -1,12 +1,19 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import { IAnimal } from "../../../../models/interface/animal.interface";
 import { Typography } from "@mui/material";
 import { Button } from "../../../../components/Button";
+import { DetailsDialog } from "../DetailsDialog";
 
 export const CardAnimals: FC<{ animal: IAnimal }> = ({ animal }) => {
+  const [open, setOpen] = useState(false);
+  const handleClose=()=>{
+    setOpen(false)
+  }
   return (
+    <>
+    <DetailsDialog open={open} animal={animal} onClose={handleClose}/>
     <div className="flex flex-col gap-3 w-[170px] items-center pb-4 bg-white !shadow-lg rounded-lg">
       <div
         className="rounded-lg animal-card w-full h-[107px] bg-cover bg-center shadow-md"
@@ -20,7 +27,7 @@ export const CardAnimals: FC<{ animal: IAnimal }> = ({ animal }) => {
         <Typography className="text-preto !font-normal !text-[20px]">{animal.idade} anos</Typography>
       </div>
       <div className="w-full px-3">
-        <Button>
+        <Button onClick={()=>setOpen(true)}>
           <Typography className=" text-white !font-normal !text-[15px] capitalize">
             Saiba mais
           </Typography>
@@ -28,5 +35,6 @@ export const CardAnimals: FC<{ animal: IAnimal }> = ({ animal }) => {
         </Button>
       </div>
     </div>
+    </>
   );
 };

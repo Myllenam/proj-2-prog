@@ -4,6 +4,7 @@ import { CardAnimals } from "./components/CardAnimals";
 import { Button } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import getAnimals from "../../hooks/getAnimal";
+import { mockAnimais } from "../../utils/animals";
 
 export const Component = () => {
   const { animals, loading } = getAnimals();
@@ -11,6 +12,7 @@ export const Component = () => {
   const goToForm = () => {
     navigate("/adoptions/register");
   };
+  const test=animals?animals:mockAnimais
   return (
     <div className="flex flex-col py-[45px] gap-[60px] sm:items-center">
       <Typography
@@ -29,7 +31,7 @@ export const Component = () => {
           <Filters />
         </div>
         <div className="flex flex-wrap gap-[70px] w-full items-center sm:justify-center">
-          {animals?animals.map((animal, index) => (
+          {test?test.map((animal, index) => (
             <CardAnimals key={`animal-${index}`} animal={animal} />
           )):<p>Erro</p>}
         </div>

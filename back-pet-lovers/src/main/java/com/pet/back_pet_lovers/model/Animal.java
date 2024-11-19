@@ -38,7 +38,7 @@ public class Animal {
         joinColumns = @JoinColumn(name = "ID_ANIMAL"),
         inverseJoinColumns = @JoinColumn(name = "ID_TAG")
     )
-    @JsonManagedReference  // Evita a serialização recursiva do lado dos animais
+    @JsonManagedReference  
     private Set<Tag> tags;
 
     
