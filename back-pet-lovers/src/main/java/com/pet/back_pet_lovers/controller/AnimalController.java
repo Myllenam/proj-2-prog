@@ -1,4 +1,5 @@
 package com.pet.back_pet_lovers.controller;
+import com.pet.back_pet_lovers.dto.AnimalDTO;
 import com.pet.back_pet_lovers.model.Animal;
 import com.pet.back_pet_lovers.service.AnimalService;
 
@@ -28,8 +29,8 @@ public class AnimalController {
   
       // Endpoint para criar um novo animal
     @PostMapping
-    public Animal createAnimal(@RequestBody Animal animal) {
-        return animalService.saveAnimal(animal);  // Chama o serviço para salvar o animal
+    public Animal createAnimal(@RequestBody AnimalDTO animalDTO) {
+        return animalService.saveAnimal(animalDTO);  // Chama o serviço para salvar o animal
     }
 
     @GetMapping("/gatos")

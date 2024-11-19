@@ -1,16 +1,25 @@
 package com.pet.back_pet_lovers.service;
+import com.pet.back_pet_lovers.dto.AnimalDTO;
 import com.pet.back_pet_lovers.model.Animal;
+import com.pet.back_pet_lovers.model.Tag;
 import com.pet.back_pet_lovers.repository.AnimalRepository;
+import com.pet.back_pet_lovers.repository.TagRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import jakarta.transaction.Transactional;
 
 @Service
 public class AnimalService {
 
     @Autowired
     private AnimalRepository animalRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
  
     public List<Animal> getAllAnimais() {
@@ -59,8 +68,35 @@ public class AnimalService {
         }
     }
 
-        public Animal saveAnimal(Animal animal) {
-        return animalRepository.save(animal);  // Salva o animal no banco de dados
-    }
-}
+    @Transactional
+    public Animal saveAnimal(AnimalDTO animalDTO) {
+        // Cria uma nova instância de Animal
+        Animal animal = new Animal();
+        animal.setIdUser(animalDTO.getIdUser());
+        animal.setNome(animalDTO.getNome());
+        animal.setRaca(animalDTO.getRaca());
+        animal.setIdade(animalDTO.getIdade());
+        animal.setDescricao(animalDTO.getDescricao());
+        animal.setAdotado(animalDTO.getAdotado());
+        animal.setEspecie(animalDTO.getEspecie());
+        animal.setLinkImagem(animalDTO.getLinkImagem());
+        animal.setCidade(animalDTO.getCidade());
+        animal.setEstado(animalDTO.getEstado());
+        animal.setGenero(animalDTO.getGenero());
+        animal.setPorte(animalDTO.getPorte());
 
+        // animal = animalRepository.save(animal);
+
+        List<Integer> tagIds = animalDTO.getTagIds();
+        if (tagIds != null && !tagIds.isEmpty()) {
+            for (Integer tagId : tagIds) {
+                Tag tag = tagRepository.findById(tagId)
+                        .orElseThrow(() -> new EntityNotFoundException("Tag não encontrada com ID: " + tagId));
+                animal.addTag(tag);
+            }
+        }
+
+        return animalRepository.save(animal);
+    }
+
+}

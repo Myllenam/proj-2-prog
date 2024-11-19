@@ -1,25 +1,25 @@
 package com.pet.back_pet_lovers.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "animal")
 public class Animal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idAnimal;
+
     private Integer idUser;
     private String nome;
     private String raca;
@@ -33,28 +33,13 @@ public class Animal {
     private String genero;
     private String porte;
 
-   @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "Animal_Tags",
-        joinColumns = @JoinColumn(name = "ID_ANIMAL"),
-        inverseJoinColumns = @JoinColumn(name = "ID_TAG")
-    )
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<AnimalTag> animalTags = new HashSet<>();
    
-    @JsonIgnore
-    private Set<Tag> tags;
-
-    
     public Integer getIdAnimal() {
         return idAnimal;
     }
 
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
     public void setIdAnimal(Integer idAnimal) {
         this.idAnimal = idAnimal;
     }
@@ -154,4 +139,24 @@ public class Animal {
     public void setIdUser(Integer idUser) {
         this.idUser = idUser;
     }
+
+    public Set<AnimalTag> getAnimalTags() {
+        return animalTags;
+    }
+
+    public void setAnimalTags(Set<AnimalTag> animalTags) {
+        this.animalTags = animalTags;
+    }
+
+    public void addTag(Tag tag) {
+        AnimalTag animalTag = new AnimalTag(this, tag);
+        animalTags.add(animalTag);
+        tag.getAnimalTags().add(animalTag);
+    }
+
+    public void removeTag(Tag tag) {
+        animalTags.removeIf(at -> at.getTag().equals(tag));
+        tag.getAnimalTags().removeIf(at -> at.getAnimal().equals(this));
+    }
+
 }
