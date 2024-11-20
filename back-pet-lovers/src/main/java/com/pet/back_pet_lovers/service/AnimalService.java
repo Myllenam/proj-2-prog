@@ -1,16 +1,30 @@
 package com.pet.back_pet_lovers.service;
+import com.pet.back_pet_lovers.dto.AnimalInputDTO;
+import com.pet.back_pet_lovers.dto.AnimalOutputDTO;
+import com.pet.back_pet_lovers.dto.TagOutputDTO;
 import com.pet.back_pet_lovers.model.Animal;
+import com.pet.back_pet_lovers.model.Tag;
 import com.pet.back_pet_lovers.repository.AnimalRepository;
+import com.pet.back_pet_lovers.repository.TagRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Set;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AnimalService {
 
     @Autowired
     private AnimalRepository animalRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
  
     public List<Animal> getAllAnimais() {
@@ -59,8 +73,60 @@ public class AnimalService {
         }
     }
 
-        public Animal saveAnimal(Animal animal) {
-        return animalRepository.save(animal);  // Salva o animal no banco de dados
-    }
-}
+    @Transactional
+    public Animal saveAnimal(AnimalInputDTO animalDTO) {
+        Animal animal = new Animal();
+        animal.setIdUser(animalDTO.getIdUser());
+        animal.setNome(animalDTO.getNome());
+        animal.setRaca(animalDTO.getRaca());
+        animal.setIdade(animalDTO.getIdade());
+        animal.setDescricao(animalDTO.getDescricao());
+        animal.setAdotado(animalDTO.getAdotado());
+        animal.setEspecie(animalDTO.getEspecie());
+        animal.setLinkImagem(animalDTO.getLinkImagem());
+        animal.setCidade(animalDTO.getCidade());
+        animal.setEstado(animalDTO.getEstado());
+        animal.setGenero(animalDTO.getGenero());
+        animal.setPorte(animalDTO.getPorte());
 
+        List<Integer> tagIds = animalDTO.getTagIds();
+        if (tagIds != null && !tagIds.isEmpty()) {
+            for (Integer tagId : tagIds) {
+                Tag tag = tagRepository.findById(tagId)
+                        .orElseThrow(() -> new EntityNotFoundException("Tag não encontrada com ID: " + tagId));
+                animal.addTag(tag);
+            }
+        }
+
+        return animalRepository.save(animal);
+    }
+
+    public AnimalOutputDTO convertToDTO(Animal animal) {
+        AnimalOutputDTO dto = new AnimalOutputDTO();
+        dto.setIdAnimal(animal.getIdAnimal());
+        dto.setIdUser(animal.getIdUser());
+        dto.setNome(animal.getNome());
+        dto.setRaca(animal.getRaca());
+        dto.setIdade(animal.getIdade());
+        dto.setDescricao(animal.getDescricao());
+        dto.setAdotado(animal.getAdotado());
+        dto.setEspecie(animal.getEspecie());
+        dto.setLinkImagem(animal.getLinkImagem());
+        dto.setCidade(animal.getCidade());
+        dto.setEstado(animal.getEstado());
+        dto.setGenero(animal.getGenero());
+        dto.setPorte(animal.getPorte());
+
+        Set<TagOutputDTO> tagDTOs = animal.getAnimalTags().stream()
+                .map(animalTag -> {
+                    Tag tag = animalTag.getTag();
+                    return new TagOutputDTO(tag.getIdTag(), tag.getDescricao(), tag.getTipo());
+                })
+                .collect(Collectors.toSet());
+
+        dto.setTags(tagDTOs);
+
+        return dto;
+    }    
+
+}
