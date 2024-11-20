@@ -1,9 +1,9 @@
 package com.pet.back_pet_lovers.dto;
 
-import java.util.List;
+import java.util.Set;
 
-public class AnimalDTO {
-
+public class AnimalOutputDTO {
+    private Integer idAnimal;
     private Integer idUser;
     private String nome;
     private String raca;
@@ -16,9 +16,20 @@ public class AnimalDTO {
     private String estado;
     private String genero;
     private String porte;
-    private List<Integer> tagIds; // Lista de IDs de tags existentes para associar
+    private Set<TagOutputDTO> tags;
+
+    // Construtores
+    public AnimalOutputDTO() {
+    }
 
     // Getters e Setters
+    public Integer getIdAnimal() {
+        return idAnimal;
+    }
+
+    public void setIdAnimal(Integer idAnimal) {
+        this.idAnimal = idAnimal;
+    }
 
     public Integer getIdUser() {
         return idUser;
@@ -116,11 +127,11 @@ public class AnimalDTO {
         this.porte = porte;
     }
 
-    public List<Integer> getTagIds() {
-        return tagIds;
+    public Set<TagOutputDTO> getTags() {
+        return tags;
     }
 
-    public void setTagIds(List<Integer> tagIds) {
-        this.tagIds = tagIds;
+    public void setTags(Set<TagOutputDTO> tags) {
+        this.tags = tags;
     }
 }

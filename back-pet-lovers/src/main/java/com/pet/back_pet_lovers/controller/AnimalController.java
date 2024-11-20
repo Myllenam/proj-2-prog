@@ -1,5 +1,6 @@
 package com.pet.back_pet_lovers.controller;
-import com.pet.back_pet_lovers.dto.AnimalDTO;
+import com.pet.back_pet_lovers.dto.AnimalInputDTO;
+import com.pet.back_pet_lovers.dto.AnimalOutputDTO;
 import com.pet.back_pet_lovers.model.Animal;
 import com.pet.back_pet_lovers.service.AnimalService;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 
@@ -23,14 +25,18 @@ public class AnimalController {
 
     // Endpoint para pegar todos os animais
     @GetMapping
-    public List<Animal> getAnimais() {
-        return animalService.getAllAnimais();
+    public List<AnimalOutputDTO> getAnimais() {
+        List<Animal> animais = animalService.getAllAnimais();
+        return animais.stream()
+                .map(animalService::convertToDTO)
+                .collect(Collectors.toList());
     }
   
       // Endpoint para criar um novo animal
     @PostMapping
-    public Animal createAnimal(@RequestBody AnimalDTO animalDTO) {
-        return animalService.saveAnimal(animalDTO);  // Chama o serviço para salvar o animal
+    public AnimalOutputDTO createAnimal(@RequestBody AnimalInputDTO animalDTO) {
+        Animal animal = animalService.saveAnimal(animalDTO);
+        return animalService.convertToDTO(animal);
     }
 
     @GetMapping("/gatos")

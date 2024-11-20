@@ -1,5 +1,7 @@
 package com.pet.back_pet_lovers.service;
-import com.pet.back_pet_lovers.dto.AnimalDTO;
+import com.pet.back_pet_lovers.dto.AnimalInputDTO;
+import com.pet.back_pet_lovers.dto.AnimalOutputDTO;
+import com.pet.back_pet_lovers.dto.TagOutputDTO;
 import com.pet.back_pet_lovers.model.Animal;
 import com.pet.back_pet_lovers.model.Tag;
 import com.pet.back_pet_lovers.repository.AnimalRepository;
@@ -10,6 +12,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Set;
+
 import jakarta.transaction.Transactional;
 
 @Service
@@ -69,8 +74,7 @@ public class AnimalService {
     }
 
     @Transactional
-    public Animal saveAnimal(AnimalDTO animalDTO) {
-        // Cria uma nova instância de Animal
+    public Animal saveAnimal(AnimalInputDTO animalDTO) {
         Animal animal = new Animal();
         animal.setIdUser(animalDTO.getIdUser());
         animal.setNome(animalDTO.getNome());
@@ -85,8 +89,6 @@ public class AnimalService {
         animal.setGenero(animalDTO.getGenero());
         animal.setPorte(animalDTO.getPorte());
 
-        // animal = animalRepository.save(animal);
-
         List<Integer> tagIds = animalDTO.getTagIds();
         if (tagIds != null && !tagIds.isEmpty()) {
             for (Integer tagId : tagIds) {
@@ -98,5 +100,33 @@ public class AnimalService {
 
         return animalRepository.save(animal);
     }
+
+    public AnimalOutputDTO convertToDTO(Animal animal) {
+        AnimalOutputDTO dto = new AnimalOutputDTO();
+        dto.setIdAnimal(animal.getIdAnimal());
+        dto.setIdUser(animal.getIdUser());
+        dto.setNome(animal.getNome());
+        dto.setRaca(animal.getRaca());
+        dto.setIdade(animal.getIdade());
+        dto.setDescricao(animal.getDescricao());
+        dto.setAdotado(animal.getAdotado());
+        dto.setEspecie(animal.getEspecie());
+        dto.setLinkImagem(animal.getLinkImagem());
+        dto.setCidade(animal.getCidade());
+        dto.setEstado(animal.getEstado());
+        dto.setGenero(animal.getGenero());
+        dto.setPorte(animal.getPorte());
+
+        Set<TagOutputDTO> tagDTOs = animal.getAnimalTags().stream()
+                .map(animalTag -> {
+                    Tag tag = animalTag.getTag();
+                    return new TagOutputDTO(tag.getIdTag(), tag.getDescricao(), tag.getTipo());
+                })
+                .collect(Collectors.toSet());
+
+        dto.setTags(tagDTOs);
+
+        return dto;
+    }    
 
 }
