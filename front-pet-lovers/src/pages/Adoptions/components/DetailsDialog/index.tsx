@@ -20,7 +20,7 @@ export const DetailsDialog: FC<{
             {animal.nome}
           </Typography>
           <div className="flex flex-wrap gap-2">
-          {Array.isArray(animal.tags) && animal.tags.length >= 1 && animal.tags.length >= 1 &&
+          {animal.tags.length >= 1 && animal.tags.length >= 1 &&
             animal.tags.map((tag, index) => {
               return (
                 <div

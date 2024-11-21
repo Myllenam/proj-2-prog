@@ -19,16 +19,21 @@ export const Component = () => {
      idade:null
     }
    })
-   const teste= watch();
-   console.log(teste)
-   const { animals, loading, error, updateFilters, refetch } = useAnimals();
+   const formValues= watch();
+   console.log(formValues)
+   const { animals, loading, error, updateFilters } = useAnimals();
   const navigate = useNavigate();
   const goToForm = () => {
     navigate("/adoptions/register");
   };
   useEffect(() => {
-    updateFilters({ especie: EEspecie.GATO, genero: ESexo.MASCULINO });
-  }, [updateFilters]);
+    const cleanedFilters = Object.fromEntries(
+      Object.entries(formValues).filter(([_, value]) => value !== undefined && value !== null && value !== '')
+    );
+    updateFilters(cleanedFilters);
+  }, [formValues.especie, formValues.genero, formValues.idade, formValues.porte]);
+   
+
   const test=animals?animals:mockAnimais
   return (
     <div className="flex flex-col py-[45px] gap-[60px] sm:items-center">

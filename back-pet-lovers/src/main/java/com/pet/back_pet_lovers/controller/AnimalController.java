@@ -39,26 +39,20 @@ public class AnimalController {
         return animalService.convertToDTO(animal);
     }
 
-    @GetMapping("/gatos")
-    public List<Animal> getGatos() {
-        return animalService.getAllGatos();
-    }
-
-    // Endpoint para pegar todos os cachorros
-    @GetMapping("/cachorros")
-    public List<Animal> getCachorros() {
-        return animalService.getAllCachorros();
-    }
-
     // Endpoint para pegar animais filtrados por espécie, raça e estado
     @GetMapping("/filtrados")
-    public List<Animal> getAnimaisFiltrados(
+    public List<AnimalOutputDTO> getAnimaisFiltrados(
             @RequestParam(required = false) String especie,
-            @RequestParam(required = false) String raca,
-            @RequestParam(required = false) String estado
+            @RequestParam(required = false) String genero,
+            @RequestParam(required = false) String porte,
+            @RequestParam(required = false) Float idade
     ) {
-        return animalService.getAnimalsFiltered(especie, raca, estado);
+        List<Animal> animais = animalService.getAnimalsFiltered(especie, genero, porte,idade);
+        return animais.stream()
+                .map(animalService::convertToDTO)
+                .collect(Collectors.toList());
     }
+  
 
     
 }

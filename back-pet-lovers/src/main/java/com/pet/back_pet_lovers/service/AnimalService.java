@@ -32,46 +32,73 @@ public class AnimalService {
         return animalRepository.findAll();
     }
 
-    // Método para pegar todos os gatos
-    public List<Animal> getAllGatos() {
-        return animalRepository.findByEspecie("gato");
-    }
 
-    // Método para pegar todos os cachorros
-    public List<Animal> getAllCachorros() {
-        return animalRepository.findByEspecie("cachorro");
-    }
 
     // Método para pegar animais filtrados por espécie, raça e cidade
-    public List<Animal> getAnimalsFiltered(String especie, String raca, String estado) {
-        // Converter raça, cidade e espécie para lowercase e remover espaços
-        if (especie != null) {
-            especie = especie.trim().toLowerCase();
+    public List<Animal> getAnimalsFiltered(String especie, String genero, String porte, Float idade) {
+
+        especie = normalizeString(especie);
+        genero = normalizeString(genero);
+        porte = normalizeString(porte);
+
+
+        if (especie != null && genero != null && porte != null && idade != null) {
+            return animalRepository.findByEspecieIgnoreCaseAndGeneroIgnoreCaseAndPorteIgnoreCaseAndIdade(especie, genero, porte, idade);
         }
-        if (raca != null) {
-            raca = raca.trim().toLowerCase().replaceAll("\\s+", "");
+    
+
+        if (especie != null && genero != null && porte != null) {
+            return animalRepository.findByEspecieIgnoreCaseAndGeneroIgnoreCaseAndPorteIgnoreCase(especie, genero, porte);
         }
-        if (estado != null) {
-            estado = estado.trim().toLowerCase().replaceAll("\\s+", "");
+        if (especie != null && genero != null && idade != null) {
+            return animalRepository.findByEspecieIgnoreCaseAndGeneroIgnoreCaseAndIdade(especie, genero, idade);
+        }
+        if (especie != null && porte != null && idade != null) {
+            return animalRepository.findByEspecieIgnoreCaseAndPorteIgnoreCaseAndIdade(especie, porte, idade);
+        }
+        if (genero != null && porte != null && idade != null) {
+            return animalRepository.findByGeneroIgnoreCaseAndPorteIgnoreCaseAndIdade(genero, porte, idade);
         }
 
-        // Se o estado for fornecido
-        if (estado != null && especie != null && raca != null) {
-            return animalRepository.findByEspecieAndRacaAndEstadoIgnoreCase(especie, raca, estado);
-        } 
-        // Se o estado for null, buscar apenas por espécie e raça
-        else if (especie != null && raca != null) {
-            return animalRepository.findByEspecieAndRacaIgnoreCase(especie, raca);
-        } 
-        // Caso contrário, buscar apenas por raça ou apenas por espécie
-        else if (especie != null) {
-            return animalRepository.findByEspecieIgnoreCase(especie);
-        } 
-        else if (raca != null) {
-            return animalRepository.findByRacaIgnoreCase(raca);
-        } else {
-            return animalRepository.findAll();  // Retorna todos os animais se nenhum filtro for passado
+        if (especie != null && genero != null) {
+            return animalRepository.findByEspecieIgnoreCaseAndGeneroIgnoreCase(especie, genero);
         }
+        if (especie != null && porte != null) {
+            return animalRepository.findByEspecieIgnoreCaseAndPorteIgnoreCase(especie, porte);
+        }
+        if (especie != null && idade != null) {
+            return animalRepository.findByEspecieIgnoreCaseAndIdade(especie, idade);
+        }
+        if (genero != null && porte != null) {
+            return animalRepository.findByGeneroIgnoreCaseAndPorteIgnoreCase(genero, porte);
+        }
+        if (genero != null && idade != null) {
+            return animalRepository.findByGeneroIgnoreCaseAndIdade(genero, idade);
+        }
+        if (porte != null && idade != null) {
+            return animalRepository.findByPorteIgnoreCaseAndIdade(porte, idade);
+        }
+    
+        if (especie != null) {
+            return animalRepository.findByEspecieIgnoreCase(especie);
+        }
+        if (genero != null) {
+            return animalRepository.findByGeneroIgnoreCase(genero);
+        }
+        if (porte != null) {
+            return animalRepository.findByPorteIgnoreCase(porte);
+        }
+        if (idade != null) {
+            return animalRepository.findByIdadeLessThanEqual(idade);
+        }
+
+
+        return animalRepository.findAll();
+    }
+
+
+    private String normalizeString(String value) {
+        return (value != null) ? value.trim().toLowerCase() : null;
     }
 
 @Transactional
