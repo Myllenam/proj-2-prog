@@ -1,4 +1,6 @@
 import { EEspecie } from "../enum/especie.enum";
+import { EPorte } from "../enum/porte.interface";
+import { ESexo } from "../enum/sexo.enum";
 
 export interface ITag {
     idTag: number;
@@ -40,9 +42,8 @@ export interface ITag {
     tags: {id:number}[];  
   }
   export interface AnimalFilter {
-    especie?: string;
-    raca?: string;
-    cidade?: string;
-    estado?: string;
-    adotado?: boolean;
+    especie?: EEspecie |null;
+    porte?:EPorte|null;
+    genero?:ESexo|null;
+    idade?:number|null;
   }

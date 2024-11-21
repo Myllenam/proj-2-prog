@@ -29,12 +29,12 @@ export const GenderComponent: FC<{
               <FormControlLabel
                 value={ESexo.MASCULINO}
                 control={<Radio />}
-                label="Masculino"
+                label="Macho"
               />
               <FormControlLabel
                 value={ESexo.FEMININO}
                 control={<Radio/>}
-                label="Feminino"
+                label="Fêmea"
               />
             </RadioGroup>
           )}

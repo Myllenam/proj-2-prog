@@ -12,15 +12,15 @@ export const DetailsDialog: FC<{
     <Dialog open={open} onClose={onClose}>
       <div className="flex gap-[35px] pr-[30px] sm:pr-0 sm:flex-col sm:gap-4">
         <div
-          className="animal-card md:rounded-r-lg lg:rounded-r-lg  sm:rounded-e-lg w-[354px] sm:w-[100%] h-[284px] bg-cover bg-center"
+          className="animal-card md:rounded-r-lg lg:rounded-r-lg  sm:rounded-e-lg w-[354px] sm:w-[100%] min-h-[284px] bg-cover bg-center"
           style={{ backgroundImage: `url(${animal.linkImagem})` }}
         />
-        <div className=" flex flex-col justify-between py-[25px] lg:w-[400px] md:w-[320px] sm:px-4 sm:gap-4">
+        <div className=" flex flex-col gap-10 py-[25px] lg:w-[400px] md:w-[320px] sm:px-4 sm:gap-4">
           <Typography variant="h4" className="text-neutral-500 !font-bold">
             {animal.nome}
           </Typography>
           <div className="flex flex-wrap gap-2">
-          {animal.tags.length >= 1 &&
+          {Array.isArray(animal.tags) && animal.tags.length >= 1 && animal.tags.length >= 1 &&
             animal.tags.map((tag, index) => {
               return (
                 <div

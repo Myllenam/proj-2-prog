@@ -7,13 +7,15 @@ export const Button: FC<{
   variant?: "text" | "contained";
   onClick?: () => void;
   isWhite?: boolean;
-}> = ({ children, variant = "contained", onClick, isWhite = false,type='button' }) => {
+  disabled?:boolean
+}> = ({ children, variant = "contained", onClick, isWhite = false,type='button',disabled=false }) => {
   return (
     <MuiButton
+    disabled={disabled}
     type={type}
       variant={variant}
       className={`rounded-[10px] w-full ${
-        variant === "text" ? "bg-transparent" :isWhite?"!bg-white ": "!bg-rosa2"
+        variant === "text" ? "bg-transparent" :isWhite?"!bg-white ": disabled?"bg-neutral-700":"!bg-rosa2"
       }`}
       onClick={onClick}
     >

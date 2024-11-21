@@ -3,15 +3,32 @@ import { Filters } from "./components/Filters";
 import { CardAnimals } from "./components/CardAnimals";
 import { Button } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
-import getAnimals from "../../hooks/getAnimal";
 import { mockAnimais } from "../../utils/animals";
+import { useForm } from "react-hook-form";
+import { EEspecie } from "../../models/enum/especie.enum";
+import useAnimals from "../../hooks/getFilterAnimal";
+import { useEffect } from "react";
+import { ESexo } from "../../models/enum/sexo.enum";
 
 export const Component = () => {
-  const { animals, loading } = getAnimals();
+  const { control, watch } = useForm({
+    defaultValues:{
+     especie:null,
+     porte:null,
+     genero:null,
+     idade:null
+    }
+   })
+   const teste= watch();
+   console.log(teste)
+   const { animals, loading, error, updateFilters, refetch } = useAnimals();
   const navigate = useNavigate();
   const goToForm = () => {
     navigate("/adoptions/register");
   };
+  useEffect(() => {
+    updateFilters({ especie: EEspecie.GATO, genero: ESexo.MASCULINO });
+  }, [updateFilters]);
   const test=animals?animals:mockAnimais
   return (
     <div className="flex flex-col py-[45px] gap-[60px] sm:items-center">
@@ -28,7 +45,7 @@ export const Component = () => {
               Quero divulgar um animal
             </Typography>
           </Button>
-          <Filters />
+          <Filters control={control}/>
         </div>
         <div className="flex flex-wrap gap-[70px] w-full items-center sm:justify-center">
           {test?test.map((animal, index) => (
