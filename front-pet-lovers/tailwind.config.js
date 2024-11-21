@@ -19,6 +19,7 @@ export default {
       colors: {
         rosa1:"#F7C6C7",
         rosa2:"#F47B7A",
+        rosa3:"#FFDFE0",
         laranja:"#FA8C01",
         azul:"#7BB9FA",
         cinza:"#A9A9A9",

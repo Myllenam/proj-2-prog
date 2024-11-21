@@ -1,4 +1,4 @@
-export enum EPorte {
+export enum ESexo {
     FEMININO = "Femea",
     MASCULINO = "Macho",
   

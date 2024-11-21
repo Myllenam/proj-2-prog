@@ -1,6 +1,7 @@
 package com.pet.back_pet_lovers.service;
 import com.pet.back_pet_lovers.dto.AnimalInputDTO;
 import com.pet.back_pet_lovers.dto.AnimalOutputDTO;
+import com.pet.back_pet_lovers.dto.TagInputDTO;
 import com.pet.back_pet_lovers.dto.TagOutputDTO;
 import com.pet.back_pet_lovers.model.Animal;
 import com.pet.back_pet_lovers.model.Tag;
@@ -73,33 +74,42 @@ public class AnimalService {
         }
     }
 
-    @Transactional
-    public Animal saveAnimal(AnimalInputDTO animalDTO) {
-        Animal animal = new Animal();
-        animal.setIdUser(animalDTO.getIdUser());
-        animal.setNome(animalDTO.getNome());
-        animal.setRaca(animalDTO.getRaca());
-        animal.setIdade(animalDTO.getIdade());
-        animal.setDescricao(animalDTO.getDescricao());
-        animal.setAdotado(animalDTO.getAdotado());
-        animal.setEspecie(animalDTO.getEspecie());
-        animal.setLinkImagem(animalDTO.getLinkImagem());
-        animal.setCidade(animalDTO.getCidade());
-        animal.setEstado(animalDTO.getEstado());
-        animal.setGenero(animalDTO.getGenero());
-        animal.setPorte(animalDTO.getPorte());
+@Transactional
+public Animal saveAnimal(AnimalInputDTO animalDTO) {
+    Animal animal = new Animal();
+    animal.setIdUser(animalDTO.getIdUser());
+    animal.setNome(animalDTO.getNome());
+    animal.setRaca(animalDTO.getRaca());
+    animal.setIdade(animalDTO.getIdade());
+    animal.setDescricao(animalDTO.getDescricao());
+    animal.setAdotado(animalDTO.getAdotado());
+    animal.setEspecie(animalDTO.getEspecie());
+    animal.setLinkImagem(animalDTO.getLinkImagem());
+    animal.setCidade(animalDTO.getCidade());
+    animal.setEstado(animalDTO.getEstado());
+    animal.setGenero(animalDTO.getGenero());
+    animal.setPorte(animalDTO.getPorte());
 
-        List<Integer> tagIds = animalDTO.getTagIds();
-        if (tagIds != null && !tagIds.isEmpty()) {
-            for (Integer tagId : tagIds) {
-                Tag tag = tagRepository.findById(tagId)
-                        .orElseThrow(() -> new EntityNotFoundException("Tag não encontrada com ID: " + tagId));
-                animal.addTag(tag);
-            }
+    List<Integer> tagIds = animalDTO.getTagIds()
+                                .stream()
+                                .map(TagInputDTO::getId)
+                                .collect(Collectors.toList());
+
+    if (tagIds != null && !tagIds.isEmpty()) {
+
+        List<Tag> tags = tagRepository.findAllById(tagIds);
+        if (tags.size() != tagIds.size()) {
+            throw new EntityNotFoundException("Uma ou mais tags não foram encontradas.");
         }
 
-        return animalRepository.save(animal);
+        for (Tag tag : tags) {
+            animal.addTag(tag);
+        }
     }
+
+    return animalRepository.save(animal);
+}
+
 
     public AnimalOutputDTO convertToDTO(Animal animal) {
         AnimalOutputDTO dto = new AnimalOutputDTO();

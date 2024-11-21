@@ -16,7 +16,7 @@ public class AnimalInputDTO {
     private String estado;
     private String genero;
     private String porte;
-    private List<Integer> tagIds; // Lista de IDs de tags existentes para associar
+    private List<TagInputDTO> tagIds; // Lista de IDs de tags existentes para associar
 
     // Getters e Setters
 
@@ -116,11 +116,11 @@ public class AnimalInputDTO {
         this.porte = porte;
     }
 
-    public List<Integer> getTagIds() {
+    public List<TagInputDTO> getTagIds() {
         return tagIds;
     }
 
-    public void setTagIds(List<Integer> tagIds) {
+    public void setTagIds(List<TagInputDTO> tagIds) {
         this.tagIds = tagIds;
     }
 }

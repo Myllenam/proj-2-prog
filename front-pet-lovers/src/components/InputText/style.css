@@ -1,0 +1,42 @@
+@tailwind utilities;
+
+@layer utilities {
+  .text-field {
+    width: 100%;
+  }
+
+  .text-field .MuiOutlinedInput-root {
+    input {
+      color: theme("colors.rosa2");
+
+      &::placeholder {
+        color: theme("colors.preto");
+      }
+    }
+
+    fieldset {
+      border: 1px solid var(--Border-default, theme("colors.neutral.700")) !important;
+    }
+  }
+
+  .text-field .MuiOutlinedInput-root:hover fieldset {
+    border-color: theme("colors.rosa2")  !important;
+  }
+
+  .text-field .MuiOutlinedInput-root:focus-within fieldset {
+    border-color: theme("colors.rosa2")  !important;
+  }
+
+  .text-field .MuiOutlinedInput-root.Mui-disabled fieldset {
+    border-color: theme("colors.neutral.600")  !important;
+  }
+
+  .text-field .MuiOutlinedInput-root.Mui-error fieldset {
+    border-color: theme("colors.red.600")  !important;
+  }
+
+  .text-field .MuiOutlinedInput-root.Mui-error:focus-within fieldset,
+  .text-field .MuiOutlinedInput-root.Mui-error:hover fieldset {
+    border-color: theme("colors.red.600")  !important;
+  }
+}

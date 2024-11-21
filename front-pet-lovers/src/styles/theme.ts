@@ -7,6 +7,14 @@ let theme = createTheme({
 });
 
 theme = createTheme(theme, {
+  palette: {
+    primary: {
+      main: "#F47B7A",
+    },
+    secondary: {
+      main:"#F47B7A",
+    },
+  },
   typography: {
     h1: {
       fontSize: "20px",
@@ -23,7 +31,7 @@ theme = createTheme(theme, {
     h2: {
       fontSize: "30px",
       fontStyle: "normal",
-      lineHeight: "18px",
+      lineHeight: "48px",
       fontWeight: 400,
       [theme.breakpoints.up("sm")]: {
         fontSize: "24px",
